@@ -1,10 +1,12 @@
 // @flow
 
+type ContextKey = string
 export type EngineContext = {
-  get: string => any,
-  set: (string, any) => void
+  get: ContextKey => any,
+  set: (ContextKey, any) => void
 }
 
 export interface FetcherPlugin {
   fetch: EngineContext => Promise<void> | void;
+  requiredKeys?: [ContextKey];
 }
