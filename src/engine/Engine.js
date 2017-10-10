@@ -1,10 +1,22 @@
 // @flow
-import type { FetcherPlugin } from './types'
+import type { FetcherPlugin, EngineContext } from './types'
 
 export default class Engine {
-  run(fetchPlugins: [FetcherPlugin]): any {
-    return Promise.all(fetchPlugins.map(p => p.fetch())).then(
-      results => results[0]
+  ctx: EngineContext
+
+  constructor() {
+    const map = {}
+    this.ctx = {
+      get: key => map[key],
+      set: (key, val) => {
+        map[key] = val
+      },
+    }
+  }
+
+  run(fetchPlugins: [FetcherPlugin]): Promise<void> {
+    return Promise.all(fetchPlugins.map(p => p.fetch(this.ctx))).then(
+      results => undefined
     )
   }
 }

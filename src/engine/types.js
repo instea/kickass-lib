@@ -1,5 +1,10 @@
 // @flow
 
+export type EngineContext = {
+  get: string => any,
+  set: (string, any) => void
+}
+
 export interface FetcherPlugin {
-  fetch: () => Promise<any>;
+  fetch: EngineContext => Promise<void> | void;
 }
