@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
 
+import Results from './results/Results'
+
 class App extends Component {
   render() {
     return (
@@ -9,7 +11,7 @@ class App extends Component {
           <h1 className="App-title">Kickass library analyser</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          <Results />
         </p>
       </div>
     )
