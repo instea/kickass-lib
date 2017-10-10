@@ -14,7 +14,7 @@ export default class Engine {
     }
   }
 
-  run(fetchPlugins: [FetcherPlugin]): Promise<void> {
+  run(fetchPlugins: Array<FetcherPlugin>): Promise<void> {
     const canExecute = plugin => {
       if (!plugin.requiredKeys) return true
       return plugin.requiredKeys.every(key => this.ctx.get(key) !== undefined)

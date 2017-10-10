@@ -8,5 +8,5 @@ export type EngineContext = {
 
 export interface FetcherPlugin {
   fetch: EngineContext => Promise<void> | void;
-  requiredKeys?: [ContextKey];
+  requiredKeys?: Array<ContextKey>;
 }
