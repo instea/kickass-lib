@@ -3,6 +3,9 @@
   "rules": {
     "quotes": ["error", "single", { "avoidEscape": true }],
     "comma-dangle": ["error", "always-multiline"],
-    "semi": ["error", "never"],
+    "semi": ["error", "never"]
+  },
+  "env": {
+    "jest": true
   }
 }
