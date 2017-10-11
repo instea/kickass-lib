@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import './App.css'
 
+import GithubAuth from './api/GithubAuth'
 import Results from './results/Results'
 import LibraryPrompt from './settings/LibraryPrompt'
 
@@ -14,10 +15,12 @@ class App extends Component<{}, {}> {
         <header className="App-header">
           <h1 className="App-title">Kickass library analyser</h1>
         </header>
-        <p className="App-intro">
+        <GithubAuth>
           <LibraryPrompt appState={appState} />
-          <Results />
-        </p>
+          <p className="App-intro">
+            <Results />
+          </p>
+        </GithubAuth>
       </div>
     )
   }
