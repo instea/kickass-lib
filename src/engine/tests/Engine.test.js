@@ -1,7 +1,7 @@
 // @flow
 import Engine from '../Engine'
 
-describe('Engine', () => {
+describe('Engine:run', () => {
   function checkDefaultKey(plugins) {
     const e = new Engine()
     return e.run(plugins).then(() => {
@@ -51,5 +51,46 @@ describe('Engine', () => {
       fetch: ctx => ctx.set('int_key', 0),
     }
     return checkDefaultKey([plugin1, plugin2])
+  })
+})
+
+describe('Engine:evaluate', () => {
+  function mockSimplePlugin(weight, val) {
+    return {
+      evaluate: ctx => val,
+      description: 'tmp',
+      weight,
+    }
+  }
+  function mockKeyPlugin(weight, key) {
+    return {
+      evaluate: ctx => ctx.get(key),
+      description: 'tmp',
+      weight,
+    }
+  }
+  it('computes weighted rating', () => {
+    const e = new Engine()
+    const plugin1 = mockSimplePlugin(2, 10)
+    const plugin2 = mockSimplePlugin(3, 5)
+
+    const rating = e.evaluate([plugin1, plugin2])
+    expect(rating).toBe(7)
+  })
+
+  it('skip not-met plugins', () => {
+    const e = new Engine()
+    const plugin1 = mockKeyPlugin(5, 'key')
+
+    const rating = e.evaluate([plugin1])
+    expect(rating).toBe(undefined)
+  })
+
+  it('evalutate key from context', () => {
+    const e = new Engine({ key: 10 })
+    const plugin1 = mockKeyPlugin(5, 'key')
+
+    const rating = e.evaluate([plugin1])
+    expect(rating).toBe(10)
   })
 })
