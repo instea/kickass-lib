@@ -11,15 +11,13 @@ import appState from './model/appState'
 class App extends Component<{}, {}> {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <div className="App container">
+        <header className="App-header row">
           <h1 className="App-title">Kickass library analyser</h1>
         </header>
+        <LibraryPrompt appState={appState} />
         <GithubAuth>
-          <LibraryPrompt appState={appState} />
-          <p className="App-intro">
-            <Results />
-          </p>
+          <Results />
         </GithubAuth>
       </div>
     )
