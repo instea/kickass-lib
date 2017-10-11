@@ -1,9 +1,13 @@
+// @flow
 import React, { Component } from 'react'
 import './App.css'
 
 import Results from './results/Results'
+import LibraryPrompt from './settings/LibraryPrompt'
 
-class App extends Component {
+import appState from './model/appState'
+
+class App extends Component<{}, {}> {
   render() {
     return (
       <div className="App">
@@ -11,6 +15,7 @@ class App extends Component {
           <h1 className="App-title">Kickass library analyser</h1>
         </header>
         <p className="App-intro">
+          <LibraryPrompt appState={appState} />
           <Results />
         </p>
       </div>
