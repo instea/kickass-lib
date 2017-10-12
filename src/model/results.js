@@ -1,13 +1,13 @@
 // @flow
-import { observable, autorun } from 'mobx'
+import { observable, action } from 'mobx'
 
 import type { ResultsState } from './stateTypes'
+import type { EngineContext } from '../engine/types'
 import { fetcherPlugins } from '../pluginDefinition'
 import { CK_GH_URL, CK_GH_NAME } from '../plugins/ContextKeys'
 import Engine from '../engine/Engine'
 
 const state: ResultsState = observable({
-  githubUrl: undefined,
   ctx: {},
 })
 
@@ -15,17 +15,26 @@ function extractName(url) {
   return url.replace('https://github.com/', '')
 }
 
-autorun(() => {
-  const engine = new Engine(state.ctx)
-  const url = state.githubUrl
-  if (url) {
-    console.log('Starting evalutation of ', url)
-    engine.ctx.set(CK_GH_URL, url)
-    engine.ctx.set(CK_GH_NAME, extractName(url))
-    engine.run(fetcherPlugins).then(() => {
-      console.log('done', state.ctx)
-    })
+class ObservableContext implements EngineContext {
+  get(key) {
+    return state.ctx[key]
   }
-})
 
+  set = action((key, val) => {
+    state.ctx[key] = val
+  });
+}
+
+function _startFetching(url: string) {
+  state.ctx = {}
+  const engine = new Engine(new ObservableContext())
+  console.log('Starting evalutation of ', url)
+  engine.ctx.set(CK_GH_URL, url)
+  engine.ctx.set(CK_GH_NAME, extractName(url))
+  engine.run(fetcherPlugins).then(() => {
+    console.log('done', state.ctx)
+  })
+}
+
+export const startFetching = action(_startFetching)
 export default state

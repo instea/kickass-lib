@@ -1,5 +1,5 @@
 // @flow
-import Engine from '../Engine'
+import Engine, { SimpleEngineContext } from '../Engine'
 
 describe('Engine:run', () => {
   function checkDefaultKey(plugins) {
@@ -87,7 +87,7 @@ describe('Engine:evaluate', () => {
   })
 
   it('evalutate key from context', () => {
-    const e = new Engine({ key: 10 })
+    const e = new Engine(new SimpleEngineContext({ key: 10 }))
     const plugin1 = mockKeyPlugin(5, 'key')
 
     const rating = e.evaluate([plugin1])

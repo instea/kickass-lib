@@ -4,20 +4,32 @@ import type {
   FetcherPlugin,
   EngineContext,
   CriteriaPlugin,
+  ContextKey,
   Percentage,
 } from './types'
+
+type ObjectMap = { [string]: any }
+
+export class SimpleEngineContext implements EngineContext {
+  map: ObjectMap
+  constructor(map: ?ObjectMap) {
+    this.map = map || {}
+  }
+
+  set(key: ContextKey, val: any) {
+    this.map[key] = val
+  }
+
+  get(key: ContextKey) {
+    return this.map[key]
+  }
+}
 
 export default class Engine {
   ctx: EngineContext
 
-  constructor(initialContext: { [string]: any } = {}) {
-    const map = initialContext
-    this.ctx = {
-      get: key => map[key],
-      set: (key, val) => {
-        map[key] = val
-      },
-    }
+  constructor(initialContext: ?EngineContext) {
+    this.ctx = initialContext || new SimpleEngineContext()
   }
 
   run(fetchPlugins: Array<FetcherPlugin>): Promise<void> {

@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { action } from 'mobx'
 
 import type { ResultsState } from '../model/stateTypes'
+import { startFetching } from '../model/results'
 import appState from '../model/appState'
 
 type Props = {
@@ -12,7 +12,10 @@ type Props = {
 
 class Results extends Component<Props> {
   componentDidMount() {
-    action(() => (this.props.results.githubUrl = appState.libraryPath))()
+    // TODO make it on button click
+    if (appState.libraryPath) {
+      startFetching(appState.libraryPath)
+    }
   }
 
   render() {

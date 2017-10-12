@@ -6,7 +6,5 @@ export type AppState = {
 }
 
 export type ResultsState = {
-  // staring point for evaluation - URL to github
-  githubUrl: ?string,
   ctx: { [ContextKey]: any }
 }
