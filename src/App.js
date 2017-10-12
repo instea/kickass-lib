@@ -7,6 +7,7 @@ import Results from './results/Results'
 import LibraryPrompt from './settings/LibraryPrompt'
 
 import appState from './model/appState'
+import results from './model/results'
 
 class App extends Component<{}, {}> {
   render() {
@@ -17,7 +18,7 @@ class App extends Component<{}, {}> {
         </header>
         <LibraryPrompt appState={appState} />
         <GithubAuth>
-          <Results />
+          <Results results={results} />
         </GithubAuth>
       </div>
     )

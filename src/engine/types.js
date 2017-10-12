@@ -1,6 +1,6 @@
 // @flow
 
-type ContextKey = string
+export type ContextKey = string
 // number 0 - 100
 export type Percentage = number
 export type EngineContext = {
