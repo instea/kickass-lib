@@ -16,7 +16,7 @@ class LibraryPrompt extends React.Component<Props, State> {
     return (
       <form>
         <div className="form-group row">
-          <label className="col-form-label col-sm-2" for="libPath">
+          <label className="col-form-label col-sm-2" htmlFor="libPath">
             Github URL:
           </label>
           <input

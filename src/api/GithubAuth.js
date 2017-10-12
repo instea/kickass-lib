@@ -1,21 +1,33 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Url from 'domurl'
 
 import { instance as githubApi } from './Github'
 
-const extractCodeFromUrl = () => new Url().query.code
-
-const GithubAuth = ({ children }) => {
-  if (!githubApi.isReady()) {
-    const code = extractCodeFromUrl()
-    if (code) {
-      githubApi.retrieveAccessToken(code)
-      return <span>Obtaining authorization...</span>
-    }
-    return <button onClick={githubApi.tryToInit}>Authorize on GitHub</button>
-  } else {
-    return <div>{children}</div>
+const extractAndRemoveCodeFromUrl = () => {
+  const url = new Url()
+  const code = url.query.code
+  delete url.query.code
+  if (code) {
+    url.protocol = ''
+    url.host = ''
+    url.port = ''
+    window.history.pushState({}, '', url.toString())
   }
+  return code
 }
 
-export default GithubAuth
+export default class GithubAuth extends Component {
+  render() {
+    const { children } = this.props
+    if (!githubApi.isReady()) {
+      const code = extractAndRemoveCodeFromUrl()
+      if (code) {
+        githubApi.retrieveAccessToken(code).then(() => this.forceUpdate())
+        return <span>Obtaining authorization...</span>
+      }
+      return <button onClick={githubApi.tryToInit}>Authorize on GitHub</button>
+    } else {
+      return <div>{children}</div>
+    }
+  }
+}

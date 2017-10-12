@@ -7,13 +7,9 @@ import { ApiAdapter } from './apiTypes'
 
 const LOCAL_STORAGE_KEY = 'GITHUB_ACCESS_TOKEN'
 const AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
-const getAuthorizeUrl = clientId => `${AUTHORIZE_URL}?client_id=${clientId}`
-const ACCESS_TOKEN_URL = 'https://github.com/login/oauth/access_token'
-
-const objToQueryString = obj =>
-  Object.keys(obj)
-    .map(key => `${key}=${obj[key]}`)
-    .join('&')
+const getAuthorizeUrl = clientId =>
+  `${AUTHORIZE_URL}?client_id=${clientId}&redirect_uri=${window.location.toString()}`
+const ACCESS_TOKEN_URL = '/access_token'
 
 export default class Github implements ApiAdapter {
   isReady() {
@@ -28,19 +24,20 @@ export default class Github implements ApiAdapter {
     window.localStorage.setItem(LOCAL_STORAGE_KEY, accessToken)
   }
 
-  retrieveAccessToken(code: String): void {
-    superagent
+  retrieveAccessToken(code: String): Promise<String> {
+    return superagent
       .post(ACCESS_TOKEN_URL)
-      .set('Content-Type', 'application/x-www-form-urlencoded')
-      .set('Accept', 'application/json')
-      .send(
-        objToQueryString({
-          client_id: config.GITHUB_CLIENT_ID,
-          client_secret: config.GITHUB_CLIENT_SECRET,
-          code: code,
-        })
-      )
-      .then(response => this.saveAccessToken(response.access_token))
+      .send({
+        clientId: config.GITHUB_CLIENT_ID,
+        code: code,
+      })
+      .then(({ body: resp }) => {
+        if (!resp || resp.status !== 'success') {
+          throw new Error(resp.message)
+        }
+        this.saveAccessToken(resp.accessToken)
+        return resp.accessToken
+      })
   }
 
   callAPI(url: String): Promise<Object> {
