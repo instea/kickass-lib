@@ -49,25 +49,30 @@ export default class Engine {
     return tick(fetchPlugins)
   }
 
-  _canExecute = (plugin: Plugin) => {
-    if (!plugin.requiredKeys) return true
-    return plugin.requiredKeys.every(key => this.ctx.get(key) !== undefined)
-  }
+  _canExecute = (plugin: Plugin) => canExecute(this.ctx, plugin)
+}
 
-  evaluate(criteriaPlugins: Array<CriteriaPlugin>): ?Percentage {
-    const tmp = criteriaPlugins
-      .filter(this._canExecute)
-      .map(p => ({ rating: p.evaluate(this.ctx), weight: p.weight }))
-      .filter(rw => rw.rating !== undefined)
-    if (!tmp.length) {
-      // no ratings yet
-      return undefined
-    }
-    const sumWeight = tmp.reduce((sum, val) => sum + val.weight, 0)
-    const sumRating = tmp.reduce(
-      (rating, val) => rating + (val.rating || 0) * val.weight,
-      0
-    )
-    return sumRating / sumWeight
+function canExecute(ctx: EngineContext, plugin: Plugin) {
+  if (!plugin.requiredKeys) return true
+  return plugin.requiredKeys.every(key => ctx.get(key) !== undefined)
+}
+
+export function evaluate(
+  ctx: EngineContext,
+  criteriaPlugins: Array<CriteriaPlugin>
+): ?Percentage {
+  const tmp = criteriaPlugins
+    .filter(p => canExecute(ctx, p))
+    .map(p => ({ rating: p.evaluate(ctx), weight: p.weight }))
+    .filter(rw => rw.rating !== undefined)
+  if (!tmp.length) {
+    // no ratings yet
+    return undefined
   }
+  const sumWeight = tmp.reduce((sum, val) => sum + val.weight, 0)
+  const sumRating = tmp.reduce(
+    (rating, val) => rating + (val.rating || 0) * val.weight,
+    0
+  )
+  return sumRating / sumWeight
 }
