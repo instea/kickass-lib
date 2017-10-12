@@ -21,7 +21,9 @@ class App extends Component<{}, {}> {
         <LibraryPrompt appState={appState} />
         {githubApi.isReady() && <CompareButton appState={appState} />}
         {!githubApi.isReady() && <GithubAuth appState={appState} />}
-        <Results results={results} />
+        {githubApi.isReady() && (
+          <Results appState={appState} results={results} />
+        )}
       </div>
     )
   }

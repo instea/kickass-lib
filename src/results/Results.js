@@ -12,7 +12,6 @@ type Props = {
 
 class Results extends Component<Props> {
   componentDidMount() {
-    // TODO make it on button click
     if (appState.libraryPath) {
       startFetching(appState.libraryPath)
     }

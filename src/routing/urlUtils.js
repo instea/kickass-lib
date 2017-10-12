@@ -4,7 +4,7 @@ import type { AppState } from '../model/stateTypes'
 
 export function urlToInitialState(): ?AppState {
   const hash = window.location.hash
-  if (hash) {
+  if (!hash) {
     return undefined
   }
 
