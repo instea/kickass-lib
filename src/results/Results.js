@@ -19,7 +19,7 @@ class Results extends Component<Props> {
   }
 
   render() {
-    console.log('xxx')
+    console.log('Rendering results')
     const ctx = new SimpleEngineContext(this.props.ctx)
     const rating = evaluate(ctx, criteriaPlugins)
     return <div>Rating: {rating}</div>
