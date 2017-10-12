@@ -1,16 +1,14 @@
 // @flow
 
-import URL from 'domurl'
-
 import type { AppState } from '../model/stateTypes'
 
 export function urlToInitialState(): ?AppState {
-  const url = new URL()
-  if (!url.hash) {
+  const hash = window.location.hash
+  if (hash) {
     return undefined
   }
 
-  const match = url.hash.match(/\/evaluate\/([^/]+)/)
+  const match = hash.match(/#\/evaluate\/([^/]+)/)
   if (!match) {
     return
   }
