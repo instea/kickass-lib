@@ -2,22 +2,16 @@
 import request from 'superagent'
 
 import type { FetcherPlugin } from '../../engine/types'
-import { CK_GH_URL } from '../ContextKeys'
+import { CK_GH_NAME, CK_NPM_NAME, CK_NPM_PACKAGE } from '../ContextKeys'
 
 function fetch(ctx) {
-  const base = ctx.get(CK_GH_URL)
-  const id = extractOrgName(base)
+  const id = ctx.get(CK_GH_NAME)
   const url = makePackageRawUrl(id)
   return request.get(url).then(res => {
     const pkg = JSON.parse(res.text)
-    console.log('xx', pkg)
-    ctx.set('package.json', pkg)
-    ctx.set('npm-name', pkg.name)
+    ctx.set(CK_NPM_PACKAGE, pkg)
+    ctx.set(CK_NPM_NAME, pkg.name)
   })
-}
-
-function extractOrgName(url) {
-  return url.replace('https://github.com/', '')
 }
 
 function makePackageRawUrl(id) {
@@ -26,7 +20,7 @@ function makePackageRawUrl(id) {
 
 const plugin: FetcherPlugin = {
   fetch,
-  requiredKeys: [CK_GH_URL],
+  requiredKeys: [CK_GH_NAME],
 }
 
 export default plugin

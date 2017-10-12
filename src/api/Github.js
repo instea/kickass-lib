@@ -13,7 +13,10 @@ const ACCESS_TOKEN_URL = '/access_token'
 
 export default class Github implements ApiAdapter {
   isReady() {
-    return !!localStorage.getItem(LOCAL_STORAGE_KEY)
+    if (typeof window.localStorage === 'undefined') {
+      return false
+    }
+    return !!window.localStorage.getItem(LOCAL_STORAGE_KEY)
   }
 
   tryToInit() {
@@ -21,6 +24,9 @@ export default class Github implements ApiAdapter {
   }
 
   saveAccessToken(accessToken: string): void {
+    if (typeof window.localStorage === 'undefined') {
+      return
+    }
     window.localStorage.setItem(LOCAL_STORAGE_KEY, accessToken)
   }
 
