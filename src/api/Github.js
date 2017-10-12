@@ -24,12 +24,13 @@ export default class Github implements ApiAdapter {
     window.localStorage.setItem(LOCAL_STORAGE_KEY, accessToken)
   }
 
-  retrieveAccessToken(code: String): Promise<String> {
+  retrieveAccessToken(code: String, redirectUri: ?String): Promise<String> {
     return superagent
       .post(ACCESS_TOKEN_URL)
       .send({
         clientId: config.GITHUB_CLIENT_ID,
         code: code,
+        redirectUri,
       })
       .then(({ body: resp }) => {
         if (!resp || resp.status !== 'success') {

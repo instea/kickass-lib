@@ -1,33 +1,40 @@
 import React, { Component } from 'react'
 import Url from 'domurl'
 
+import type { AppState } from '../model/stateTypes'
+import { stateToUrl, absoluteUrl } from '../routing/urlUtils'
+
 import { instance as githubApi } from './Github'
 
-const extractAndRemoveCodeFromUrl = () => {
+type Props = {
+  appState: AppState
+}
+type State = {}
+
+const extractAndRemoveCodeFromUrl = (state: AppState) => {
   const url = new Url()
   const code = url.query.code
-  delete url.query.code
   if (code) {
-    url.protocol = ''
-    url.host = ''
-    url.port = ''
-    window.history.pushState({}, '', url.toString())
+    window.history.pushState({}, '', stateToUrl(state))
   }
   return code
 }
 
-export default class GithubAuth extends Component {
+// No need to observe, since state is used internally and not in markup
+export default class GithubAuth extends Component<Props, State> {
   render() {
-    const { children } = this.props
+    const { appState } = this.props
     if (!githubApi.isReady()) {
-      const code = extractAndRemoveCodeFromUrl()
+      const code = extractAndRemoveCodeFromUrl(appState)
       if (code) {
-        githubApi.retrieveAccessToken(code).then(() => this.forceUpdate())
+        githubApi
+          .retrieveAccessToken(code, absoluteUrl(stateToUrl(appState)))
+          .then(() => this.forceUpdate())
         return <span>Obtaining authorization...</span>
       }
       return <button onClick={githubApi.tryToInit}>Authorize on GitHub</button>
     } else {
-      return <div>{children}</div>
+      return null
     }
   }
 }
