@@ -22,7 +22,14 @@ class Results extends Component<Props> {
     console.log('Rendering results')
     const ctx = new SimpleEngineContext(this.props.ctx)
     const rating = evaluate(ctx, criteriaPlugins)
-    return <div>Rating: {rating}</div>
+    return (
+      <div>
+        Rating: {rating}
+        {/* TODO - find better solution to force observing */ this.props.ctx
+          .toString()
+          .slice(0, 0)}
+      </div>
+    )
   }
 }
 
