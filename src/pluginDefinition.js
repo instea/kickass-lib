@@ -1,6 +1,6 @@
 // @flow
-import packageJsonPlugin from './plugins/packageJsonFetcher/packageJsonFetcher'
-import githubRepoStatsFetcher from './plugins/githubRepoStatsFetcher/githubRepoStatsFetcher'
+import packageJsonPlugin from './plugins/fetchers/packageJsonFetcher'
+import githubRepoStatsFetcher from './plugins/fetchers/githubRepoStatsFetcher'
 
 export const fetcherPlugins = [packageJsonPlugin, githubRepoStatsFetcher]
 
