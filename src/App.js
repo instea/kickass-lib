@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react'
+import DevTools from 'mobx-react-devtools'
 import './App.css'
 
 import GithubAuth from './api/GithubAuth'
@@ -15,6 +16,7 @@ class App extends Component<{}, {}> {
   render() {
     return (
       <div className="App container">
+        <DevTools />
         <header className="App-header row">
           <h1 className="App-title">Kickass library analyser</h1>
         </header>
