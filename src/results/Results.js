@@ -2,12 +2,13 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 
-import type { ResultsState } from '../model/stateTypes'
 import { startFetching } from '../model/results'
 import appState from '../model/appState'
+import { SimpleEngineContext, evaluate } from '../engine/Engine'
+import { criteriaPlugins } from '../pluginDefinition'
 
 type Props = {
-  results: ResultsState
+  ctx: Map<string, any>
 }
 
 class Results extends Component<Props> {
@@ -18,7 +19,10 @@ class Results extends Component<Props> {
   }
 
   render() {
-    return <div>Results</div>
+    console.log('xxx')
+    const ctx = new SimpleEngineContext(this.props.ctx)
+    const rating = evaluate(ctx, criteriaPlugins)
+    return <div>Rating: {rating}</div>
   }
 }
 

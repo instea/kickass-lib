@@ -22,7 +22,7 @@ class App extends Component<{}, {}> {
         {githubApi.isReady() && <CompareButton appState={appState} />}
         {!githubApi.isReady() && <GithubAuth appState={appState} />}
         {githubApi.isReady() && (
-          <Results appState={appState} results={results} />
+          <Results appState={appState} ctx={results.ctx} />
         )}
       </div>
     )

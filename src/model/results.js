@@ -8,7 +8,7 @@ import { CK_GH_URL, CK_GH_NAME } from '../plugins/ContextKeys'
 import Engine from '../engine/Engine'
 
 const state: ResultsState = observable({
-  ctx: {},
+  ctx: observable(new Map()),
 })
 
 function extractName(url) {
@@ -17,16 +17,16 @@ function extractName(url) {
 
 class ObservableContext implements EngineContext {
   get(key) {
-    return state.ctx[key]
+    return state.ctx.get(key)
   }
 
   set = action((key, val) => {
-    state.ctx[key] = val
+    state.ctx.set(key, val)
   });
 }
 
 function _startFetching(url: string) {
-  state.ctx = {}
+  state.ctx.clear()
   const engine = new Engine(new ObservableContext())
   console.log('Starting evalutation of ', url)
   engine.ctx.set(CK_GH_URL, url)
