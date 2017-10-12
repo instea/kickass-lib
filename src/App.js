@@ -9,6 +9,7 @@ import CompareButton from './results/CompareButton'
 import LibraryPrompt from './settings/LibraryPrompt'
 
 import appState from './model/appState'
+import results from './model/results'
 
 class App extends Component<{}, {}> {
   render() {
@@ -20,7 +21,7 @@ class App extends Component<{}, {}> {
         <LibraryPrompt appState={appState} />
         {githubApi.isReady() && <CompareButton appState={appState} />}
         {!githubApi.isReady() && <GithubAuth appState={appState} />}
-        <Results />
+        <Results results={results} />
       </div>
     )
   }
