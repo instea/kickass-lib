@@ -5,7 +5,7 @@ export type ContextKey = string
 export type Percentage = number
 export interface EngineContext {
   get(ContextKey): any;
-  set(ContextKey, any): void;
+  set(ContextKey, any): any;
 }
 
 export interface Plugin {

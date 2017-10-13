@@ -2,9 +2,9 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 
-import { startFetching } from '../model/results'
+import { startFetching, ObservableContext } from '../model/results'
 import appState from '../model/appState'
-import { SimpleEngineContext, evaluate } from '../engine/Engine'
+import { evaluate } from '../engine/Engine'
 import { criteriaPlugins } from '../pluginDefinition'
 
 type Props = {
@@ -19,17 +19,9 @@ class Results extends Component<Props> {
   }
 
   render() {
-    console.log('Rendering results')
-    const ctx = new SimpleEngineContext(this.props.ctx)
+    const ctx = new ObservableContext(this.props.ctx)
     const rating = evaluate(ctx, criteriaPlugins)
-    return (
-      <div>
-        Rating: {rating}
-        {/* TODO - find better solution to force observing */ this.props.ctx
-          .toString()
-          .slice(0, 0)}
-      </div>
-    )
+    return <div>Rating: {rating}</div>
   }
 }
 

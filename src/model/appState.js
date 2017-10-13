@@ -8,11 +8,13 @@ const state: AppState = observable({
   libraryPath: 'https://github.com/instea/react-native-popup-menu',
 })
 
+const initStateFromUrl = () => Object.assign(state, urlToInitialState())
 const updateFromUrl = action(() => {
-  Object.assign(state, urlToInitialState())
+  initStateFromUrl()
   startFetching(state.libraryPath)
 })
-updateFromUrl()
+
+initStateFromUrl()
 window.addEventListener('hashchange', updateFromUrl)
 
 export default state
