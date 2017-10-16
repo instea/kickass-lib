@@ -22,7 +22,29 @@ class Results extends Component<Props> {
     const ctx = new ObservableContext(this.props.ctx)
     const results = evaluate(ctx, criteriaPlugins)
     const rating = aggregate(results)
-    return <div>Rating: {rating}</div>
+    return (
+      <div>
+        <h2>Rating: {rating}</h2>
+        <table className="table">
+          <thead className="thead-inverse">
+            <tr>
+              <th>Criteria name</th>
+              <th>Partial rating</th>
+              <th>Weight</th>
+            </tr>
+          </thead>
+          <tbody>
+            {results.map(r => (
+              <tr key={r.plugin.name}>
+                <td>{r.plugin.name}</td>
+                <td>{r.rating}</td>
+                <td>{r.plugin.weight}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )
   }
 }
 
