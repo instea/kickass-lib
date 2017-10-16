@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 
 import { startFetching, ObservableContext } from '../model/results'
 import appState from '../model/appState'
-import { evaluate } from '../engine/Engine'
+import { evaluate, aggregate } from '../engine/Engine'
 import { criteriaPlugins } from '../pluginDefinition'
 
 type Props = {
@@ -20,7 +20,8 @@ class Results extends Component<Props> {
 
   render() {
     const ctx = new ObservableContext(this.props.ctx)
-    const rating = evaluate(ctx, criteriaPlugins)
+    const results = evaluate(ctx, criteriaPlugins)
+    const rating = aggregate(results)
     return <div>Rating: {rating}</div>
   }
 }

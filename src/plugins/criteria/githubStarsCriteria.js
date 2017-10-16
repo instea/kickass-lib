@@ -17,6 +17,7 @@ function evaluate(ctx) {
 const plugin: CriteriaPlugin = {
   evaluate,
   requiredKeys: [CK_GH_NUM_STARS],
+  name: 'Github Stars',
   description: 'Number of stars for GitHub repo',
   weight: 10,
 }

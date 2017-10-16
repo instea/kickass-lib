@@ -1,5 +1,5 @@
 // @flow
-import Engine, { evaluate, SimpleEngineContext } from '../Engine'
+import Engine, { evaluate, aggregate, SimpleEngineContext } from '../Engine'
 
 describe('Engine:run', () => {
   function checkDefaultKey(plugins) {
@@ -54,12 +54,13 @@ describe('Engine:run', () => {
   })
 })
 
-describe('evaluate', () => {
+describe('evaluate/aggregate', () => {
   const ctx = new SimpleEngineContext()
 
   function mockSimplePlugin(weight, val) {
     return {
       evaluate: ctx => val,
+      name: 'name',
       description: 'tmp',
       weight,
     }
@@ -67,6 +68,7 @@ describe('evaluate', () => {
   function mockKeyPlugin(weight, key) {
     return {
       evaluate: ctx => ctx.get(key),
+      name: 'name',
       description: 'tmp',
       weight,
     }
@@ -75,7 +77,8 @@ describe('evaluate', () => {
     const plugin1 = mockSimplePlugin(2, 10)
     const plugin2 = mockSimplePlugin(3, 5)
 
-    const rating = evaluate(ctx, [plugin1, plugin2])
+    const results = evaluate(ctx, [plugin1, plugin2])
+    const rating = aggregate(results)
     expect(rating).toBe(7)
   })
 
@@ -83,14 +86,14 @@ describe('evaluate', () => {
     const plugin1 = mockKeyPlugin(5, 'key')
 
     const rating = evaluate(ctx, [plugin1])
-    expect(rating).toBe(undefined)
+    expect(rating).toEqual([])
   })
 
   it('evalutate key from context', () => {
     const ctx = new SimpleEngineContext({ key: 10 })
     const plugin1 = mockKeyPlugin(5, 'key')
 
-    const rating = evaluate(ctx, [plugin1])
-    expect(rating).toBe(10)
+    const results = evaluate(ctx, [plugin1])
+    expect(results).toEqual([{ plugin: plugin1, rating: 10 }])
   })
 })

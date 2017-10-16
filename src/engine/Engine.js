@@ -6,6 +6,7 @@ import type {
   CriteriaPlugin,
   ContextKey,
   Percentage,
+  EvaluationResult,
 } from './types'
 
 type ObjectMap = { [string]: any }
@@ -60,18 +61,22 @@ function canExecute(ctx: EngineContext, plugin: Plugin) {
 export function evaluate(
   ctx: EngineContext,
   criteriaPlugins: Array<CriteriaPlugin>
-): ?Percentage {
-  const tmp = criteriaPlugins
+): Array<EvaluationResult> {
+  const partial = criteriaPlugins
     .filter(p => canExecute(ctx, p))
-    .map(p => ({ rating: p.evaluate(ctx), weight: p.weight }))
-    .filter(rw => rw.rating !== undefined)
-  if (!tmp.length) {
+    .map(p => ({ rating: p.evaluate(ctx) || -1, plugin: p }))
+    .filter(rw => rw.rating !== -1)
+  return partial
+}
+
+export function aggregate(partial: Array<EvaluationResult>): ?Percentage {
+  if (!partial.length) {
     // no ratings yet
     return undefined
   }
-  const sumWeight = tmp.reduce((sum, val) => sum + val.weight, 0)
-  const sumRating = tmp.reduce(
-    (rating, val) => rating + (val.rating || 0) * val.weight,
+  const sumWeight = partial.reduce((sum, val) => sum + val.plugin.weight, 0)
+  const sumRating = partial.reduce(
+    (rating, val) => rating + (val.rating || 0) * val.plugin.weight,
     0
   )
   return sumRating / sumWeight

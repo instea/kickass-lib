@@ -15,7 +15,13 @@ export interface FetcherPlugin extends Plugin {
   fetch: EngineContext => Promise<void> | void;
 }
 export interface CriteriaPlugin extends Plugin {
+  name: string;
   evaluate: EngineContext => ?Percentage;
   description: string;
   weight: Percentage;
+}
+
+export type EvaluationResult = {
+  rating: Percentage,
+  plugin: CriteriaPlugin
 }
