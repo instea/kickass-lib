@@ -15,5 +15,7 @@ export interface ApiAdapter {
    * Calls the specified API endpoint with all authentication properties added to the request
    * and returns a promise with the retrieved value
    */
-  callAPI(url: String): Promise<Object>;
+  callAPI(url: string): Promise<Object>;
 }
+
+export type StringPojo = { [string]: any }

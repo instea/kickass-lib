@@ -14,3 +14,42 @@ export function makeUnlimitedNormalizator(
     return Math.atan(val / mediumValue) * 200 / Math.PI
   }
 }
+
+/**
+ * Makes normalizator funtion for ratio (given in form of `a/b`)
+ * @param lowRatio - threshold for too low values
+ * @param highRatio - threshold for too high values
+ * @param edge - edge < 50; lowRatio => edge, highRatio => 100 - edge
+ */
+export function makeRatioNormalizator(
+  lowRatio: Percentage,
+  highRatio: Percentage,
+  edge: Percentage = 10
+): (number, number) => Percentage {
+  // TODO more smooth function
+  let reverse = false
+  if (lowRatio > highRatio) {
+    const tmp = highRatio
+    highRatio = lowRatio
+    lowRatio = tmp
+    reverse = true
+  }
+  return function ratioNormalizator(a, b) {
+    if (!b) {
+      // no ratio at all -> return average
+      return 50
+    }
+    const ratio = a / b * 100
+    let result
+    if (ratio < lowRatio) {
+      result = ratio / lowRatio * edge
+    } else if (ratio > highRatio) {
+      result = 100 - (100 - ratio) / (100 - highRatio) * edge
+    } else {
+      // we are in the midle
+      result =
+        (ratio - lowRatio) / (highRatio - lowRatio) * (100 - 2 * edge) + edge
+    }
+    return reverse ? 100 - result : result
+  }
+}

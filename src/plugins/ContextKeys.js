@@ -1,14 +1,27 @@
+// @flow
 // list of "public" context keys used by plugins
 
-export const CK_GH_URL = 'GITHUB_URL'
-export const CK_GH_NAME = 'GITHUB_NAME'
+// generic keys
+/* count of all open issues (number) */
+export const CK_OPEN_ISSUES_COUNT = 'OPEN_ISSUES_COUNT'
+/* total issues count (number) */
+export const CK_TOTAL_ISSUES_COUNT = 'CK_TOTAL_ISSUES_COUNT'
 
+// npm specific keys
+/* parsed constent of projct package.json (json) */
 export const CK_NPM_PACKAGE = 'NPM_package.json'
+/* npm name (string) */
 export const CK_NPM_NAME = 'NPM_NAME'
 
+// github specific keys
+/* URL to the GH repository (string) */
+export const CK_GH_URL = 'GITHUB_URL'
+/* repo name in form `author/name` (string) */
+export const CK_GH_NAME = 'GITHUB_NAME'
 export const CK_GH_REPO_STATS = 'GITHUB_REPO_STATS'
 export const CK_GH_NUM_STARS = 'GITHUB_NUM_STARS'
-export const CK_GH_OPEN_ISSUES = 'GITHUB_OPEN_ISSUES'
 export const CK_GH_CREATED_AT = 'GITHUB_CREATED_AT'
 export const CK_GH_UPDATED_AT = 'GITHUB_UPDATED_AT'
 export const CK_GH_PUSHED_AT = 'GITHUB_PUSHED_AT'
+/* last issues as returned by `/issues?state=all (json) */
+export const CK_GH_LAST_ISSUES = 'GITHUB_LAST_ISSUES'
