@@ -36,7 +36,14 @@ class Results extends Component<Props> {
           <tbody>
             {results.map(r => (
               <tr key={r.plugin.name}>
-                <td>{r.plugin.name}</td>
+                <td>
+                  {r.plugin.name}{' '}
+                  <i
+                    className="fa fa-info-circle"
+                    aria-hidden="true"
+                    title={r.plugin.description}
+                  />
+                </td>
                 <td>{r.rating}</td>
                 <td>{r.plugin.weight}</td>
               </tr>
