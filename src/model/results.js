@@ -9,6 +9,8 @@ import Engine from '../engine/Engine'
 
 const state: ResultsState = observable({
   ctx: observable(new Map()),
+  inProgress: false,
+  selectedPlugin: undefined,
 })
 
 function extractName(url) {
@@ -33,14 +35,28 @@ export class ObservableContext implements EngineContext {
 
 function _startFetching(url: string) {
   state.ctx.clear()
+  state.inProgress = true
   const engine = new Engine(new ObservableContext(state.ctx))
   console.log('Starting evalutation of ', url)
   engine.ctx.set(CK_GH_URL, url)
   engine.ctx.set(CK_GH_NAME, extractName(url))
-  engine.run(fetcherPlugins).then(() => {
-    console.log('done', state.ctx)
-  })
+  engine.run(fetcherPlugins).then(
+    action(() => {
+      state.inProgress = false
+      console.log('done', state.ctx)
+    })
+  )
+}
+
+function _setPluginDetail(pluginName: ?string) {
+  if (state.selectedPlugin === pluginName) {
+    // "toggle"
+    state.selectedPlugin = undefined
+  } else {
+    state.selectedPlugin = pluginName
+  }
 }
 
 export const startFetching = action(_startFetching)
+export const setPluginDetail = action(_setPluginDetail)
 export default state

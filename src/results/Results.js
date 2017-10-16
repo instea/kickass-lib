@@ -2,13 +2,18 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 
-import { startFetching, ObservableContext } from '../model/results'
+import {
+  startFetching,
+  setPluginDetail,
+  ObservableContext,
+} from '../model/results'
 import appState from '../model/appState'
+import type { ResultsState } from '../model/stateTypes'
 import { evaluate, aggregate } from '../engine/Engine'
 import { criteriaPlugins } from '../pluginDefinition'
 
 type Props = {
-  ctx: Map<string, any>
+  results: ResultsState
 }
 
 class Results extends Component<Props> {
@@ -19,12 +24,15 @@ class Results extends Component<Props> {
   }
 
   render() {
-    const ctx = new ObservableContext(this.props.ctx)
-    const results = evaluate(ctx, criteriaPlugins)
-    const rating = aggregate(results)
+    const { results } = this.props
+    const ctx = new ObservableContext(results.ctx)
+    const partial = evaluate(ctx, criteriaPlugins)
+    const rating = aggregate(partial)
+    const selected = results.selectedPlugin
     return (
       <div>
         <h2>Rating: {rating}</h2>
+        {results.inProgress && 'inProgress'}
         <table className="table">
           <thead className="thead-inverse">
             <tr>
@@ -34,25 +42,47 @@ class Results extends Component<Props> {
             </tr>
           </thead>
           <tbody>
-            {results.map(r => (
-              <tr key={r.plugin.name}>
-                <td>
-                  {r.plugin.name}{' '}
-                  <i
-                    className="fa fa-info-circle"
-                    aria-hidden="true"
-                    title={r.plugin.description}
-                  />
-                </td>
-                <td>{r.rating}</td>
-                <td>{r.plugin.weight}</td>
-              </tr>
+            {partial.map(r => (
+              <ResultRow
+                selected={r.plugin.name === selected}
+                key={r.plugin.name}
+                result={r}
+              />
             ))}
           </tbody>
         </table>
       </div>
     )
   }
+}
+
+function ResultRow({ selected, result }) {
+  const r = result
+  const brief = (
+    <tr key="brief">
+      <td>
+        {r.plugin.name}{' '}
+        <button onClick={() => setPluginDetail(r.plugin.name)}>
+          <i
+            className="fa fa-info-circle"
+            aria-hidden="true"
+            title={r.plugin.description}
+          />
+        </button>
+      </td>
+      <td>{r.rating}</td>
+      <td>{r.plugin.weight}</td>
+    </tr>
+  )
+  if (selected) {
+    return [
+      brief,
+      <tr key="detail">
+        <td colSpan="3">{r.plugin.description}</td>
+      </tr>,
+    ]
+  }
+  return brief
 }
 
 export default observer(Results)

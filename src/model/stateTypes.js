@@ -5,5 +5,7 @@ export type AppState = {
 }
 
 export type ResultsState = {
-  ctx: Map<string, any>
+  ctx: Map<string, any>,
+  inProgress: boolean,
+  selectedPlugin: ?string
 }

@@ -9,9 +9,7 @@ const normalizator = makeUnlimitedNormalizator(NUM_STARS_FOR_VALUE_50)
 
 function evaluate(ctx) {
   const numStars = ctx.get(CK_GH_NUM_STARS)
-  const value = normalizator(numStars)
-  console.log('Number of stars value', value)
-  return value
+  return normalizator(numStars)
 }
 
 const plugin: CriteriaPlugin = {
