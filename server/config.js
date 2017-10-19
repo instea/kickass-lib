@@ -6,8 +6,9 @@ const pkg = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8')
 )
 const URL = require('domurl')
+const defPort = process.env.SERVER_PORT || 80
 const port =
-  process.env.NODE_ENV !== 'production' ? new URL(pkg.proxy).port : 80
+  process.env.NODE_ENV !== 'production' ? new URL(pkg.proxy).port : defPort
 
 const config = {
   port,
@@ -24,6 +25,9 @@ const config = {
       SECRET: '4e9553db79bcff677b95eec1306680098b225bad',
     },
   ],
+  defaultGithub: {
+    SECRET: process.env.GH_SECRET || 'xxx',
+  },
 }
 
 module.exports = config

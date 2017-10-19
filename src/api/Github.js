@@ -9,7 +9,7 @@ const LOCAL_STORAGE_KEY = 'GITHUB_ACCESS_TOKEN'
 const AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
 const getAuthorizeUrl = clientId =>
   `${AUTHORIZE_URL}?client_id=${clientId}&redirect_uri=${window.location.toString()}`
-const ACCESS_TOKEN_URL = '/access_token'
+const ACCESS_TOKEN_URL = config.authUrl + '/access_token'
 
 function getToken() {
   if (typeof window.localStorage === 'undefined') {

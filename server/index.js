@@ -6,18 +6,19 @@ const superagent = require('superagent')
 const app = express()
 
 const config = require('./config')
-const { port, github, githubUrls } = config
+const { port, github, githubUrls, defaultGithub } = config
 
 app.use(bodyParser.json())
 app.post('/access_token', (req, res) => {
   console.log('request to /access_token', req.body)
   const { code, clientId, redirectUri } = req.body
-  const githubConf = github.filter(conf => conf.CLIENT_ID === clientId)[0]
+  const githubConf =
+    github.find(conf => conf.CLIENT_ID === clientId) || defaultGithub
   if (!githubConf) {
     return res.send({ status: 'error', message: 'Incorrect client id' })
   }
   const data = {
-    client_id: githubConf.CLIENT_ID,
+    client_id: clientId,
     client_secret: githubConf.SECRET,
     code: code,
     redirect_uri: redirectUri,
