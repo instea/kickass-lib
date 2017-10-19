@@ -1,4 +1,5 @@
 // @flow
+import React from 'react'
 
 import type { CriteriaPlugin } from '../../engine/types'
 import { CK_TOTAL_ISSUES_COUNT, CK_OPEN_ISSUES_COUNT } from '../ContextKeys'
@@ -14,9 +15,17 @@ function evaluate(ctx) {
   return normalizator(open, total)
 }
 
+const OpenIssuesDetail = ({ ctx }) => (
+  <div>
+    Open issues {ctx.get(CK_OPEN_ISSUES_COUNT)} out of{' '}
+    {ctx.get(CK_TOTAL_ISSUES_COUNT)}
+  </div>
+)
+
 const plugin: CriteriaPlugin = {
   evaluate,
   requiredKeys: [CK_TOTAL_ISSUES_COUNT, CK_OPEN_ISSUES_COUNT],
+  detailComponent: OpenIssuesDetail,
   name: 'Open issues ratio',
   description:
     'Ratio of open issues against all issues should not be high. However older project will naturally have low ratio thus weight of this criterion is not high',

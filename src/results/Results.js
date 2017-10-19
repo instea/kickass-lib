@@ -46,6 +46,7 @@ class Results extends Component<Props> {
               <ResultRow
                 selected={r.plugin.name === selected}
                 key={r.plugin.name}
+                ctx={ctx}
                 result={r}
               />
             ))}
@@ -56,7 +57,7 @@ class Results extends Component<Props> {
   }
 }
 
-function ResultRow({ selected, result }) {
+function ResultRow({ selected, result, ctx }) {
   const r = result
   const brief = (
     <tr key="brief">
@@ -75,10 +76,14 @@ function ResultRow({ selected, result }) {
     </tr>
   )
   if (selected) {
+    const Detail = r.plugin.detailComponent
     return [
       brief,
       <tr key="detail">
-        <td colSpan="3">{r.plugin.description}</td>
+        <td colSpan="3">
+          {r.plugin.description}
+          {Detail && <Detail ctx={ctx} />}
+        </td>
       </tr>,
     ]
   }
