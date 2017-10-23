@@ -1,7 +1,8 @@
+// @flow
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 
-import { stateToUrl } from '../routing/urlUtils'
+import { stateToHash } from '../routing/urlUtils'
 import { startFetching } from '../model/results'
 import type { AppState } from '../model/stateTypes'
 
@@ -17,7 +18,7 @@ class CompareButton extends Component<Props, State> {
 
   updateUrl = () => {
     const { appState } = this.props
-    window.history.pushState({}, '', stateToUrl(appState))
+    window.history.pushState({}, '', stateToHash(appState))
     startFetching(appState.libraryPath)
   }
 }

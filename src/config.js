@@ -7,7 +7,7 @@ const config = {
 }
 
 const productionConfig = {
-  authUrl: 'http://vps.instea.sk:4601/',
+  authUrl: 'https://kickass.instea.co',
   // For url: https://instea.github.io/kickass-lib/
   GITHUB_CLIENT_ID: '8854c61e8d8a70aa89fc',
 }

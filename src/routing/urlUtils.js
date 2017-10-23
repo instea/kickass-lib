@@ -18,10 +18,10 @@ export function urlToInitialState(): ?AppState {
   }
 }
 
-export function stateToUrl(state: AppState): string {
-  return `/#/evaluate/${encodeURIComponent(state.libraryPath)}`
+export function stateToHash(state: AppState): string {
+  return `#/evaluate/${encodeURIComponent(state.libraryPath)}`
 }
 
-export function absoluteUrl(url: string): string {
-  return window.location.origin + url
+export function absoluteUrl(hash: string): string {
+  return window.location.origin + window.location.pathname + hash
 }

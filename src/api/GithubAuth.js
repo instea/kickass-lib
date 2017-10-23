@@ -1,8 +1,9 @@
+// @flow
 import React, { Component } from 'react'
 import Url from 'domurl'
 
 import type { AppState } from '../model/stateTypes'
-import { stateToUrl, absoluteUrl } from '../routing/urlUtils'
+import { stateToHash, absoluteUrl } from '../routing/urlUtils'
 
 import { instance as githubApi } from './Github'
 
@@ -15,7 +16,7 @@ const extractAndRemoveCodeFromUrl = (state: AppState) => {
   const url = new Url()
   const code = url.query.code
   if (code) {
-    window.history.pushState({}, '', stateToUrl(state))
+    window.history.pushState({}, '', absoluteUrl(stateToHash(state)))
   }
   return code
 }
@@ -28,7 +29,7 @@ export default class GithubAuth extends Component<Props, State> {
       const code = extractAndRemoveCodeFromUrl(appState)
       if (code) {
         githubApi
-          .retrieveAccessToken(code, absoluteUrl(stateToUrl(appState)))
+          .retrieveAccessToken(code, absoluteUrl(stateToHash(appState)))
           .then(() => this.forceUpdate())
         return <span>Obtaining authorization...</span>
       }
