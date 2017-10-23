@@ -1,7 +1,8 @@
 // @flow
 
 export type AppState = {
-  libraryPath: string
+  libraryPath: string,
+  ghToken: ?string
 }
 
 export type ResultsState = {

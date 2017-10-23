@@ -13,6 +13,9 @@ type State = {}
 
 class CompareButton extends Component<Props, State> {
   render() {
+    if (!this.props.appState.ghToken) {
+      return null
+    }
     return <button onClick={this.updateUrl}>Compare</button>
   }
 

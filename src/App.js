@@ -4,7 +4,6 @@ import DevTools from 'mobx-react-devtools'
 import './App.css'
 
 import GithubAuth from './api/GithubAuth'
-import { instance as githubApi } from './api/Github'
 import Results from './results/Results'
 import CompareButton from './results/CompareButton'
 import LibraryPrompt from './settings/LibraryPrompt'
@@ -21,9 +20,9 @@ class App extends Component<{}, {}> {
           <h1 className="App-title">Kickass library analyser</h1>
         </header>
         <LibraryPrompt appState={appState} />
-        {githubApi.isReady() && <CompareButton appState={appState} />}
-        {!githubApi.isReady() && <GithubAuth appState={appState} />}
-        {githubApi.isReady() && <Results results={results} />}
+        <CompareButton appState={appState} />
+        <GithubAuth appState={appState} />
+        <Results appState={appState} results={results} />
       </div>
     )
   }

@@ -4,6 +4,7 @@ import { observable, action } from 'mobx'
 import type { ResultsState } from './stateTypes'
 import type { EngineContext, ContextKey } from '../engine/types'
 import { fetcherPlugins } from '../pluginDefinition'
+import { libPathToHash } from '../routing/urlUtils'
 import { CK_GH_URL, CK_GH_NAME } from '../plugins/ContextKeys'
 import Engine from '../engine/Engine'
 
@@ -35,6 +36,7 @@ export class ObservableContext implements EngineContext {
 
 function _startFetching(url: string) {
   state.ctx.clear()
+  window.history.pushState({}, '', libPathToHash(url))
   state.inProgress = true
   const engine = new Engine(new ObservableContext(state.ctx))
   console.log('Starting evalutation of ', url)

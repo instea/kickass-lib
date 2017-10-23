@@ -2,7 +2,7 @@
 
 import type { AppState } from '../model/stateTypes'
 
-export function urlToInitialState(): ?AppState {
+export function urlToInitialState(): ?{ libraryPath: string } {
   const hash = window.location.hash
   if (!hash) {
     return undefined
@@ -19,7 +19,11 @@ export function urlToInitialState(): ?AppState {
 }
 
 export function stateToHash(state: AppState): string {
-  return `#/evaluate/${encodeURIComponent(state.libraryPath)}`
+  return `${libPathToHash(state.libraryPath)}`
+}
+
+export function libPathToHash(url: string): string {
+  return `#/evaluate/${encodeURIComponent(url)}`
 }
 
 export function absoluteUrl(hash: string): string {

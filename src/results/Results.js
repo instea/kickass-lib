@@ -7,18 +7,19 @@ import {
   setPluginDetail,
   ObservableContext,
 } from '../model/results'
-import appState from '../model/appState'
-import type { ResultsState } from '../model/stateTypes'
+import type { AppState, ResultsState } from '../model/stateTypes'
 import { evaluate, aggregate } from '../engine/Engine'
 import { criteriaPlugins } from '../pluginDefinition'
 
 type Props = {
-  results: ResultsState
+  results: ResultsState,
+  appState: AppState
 }
 
 class Results extends Component<Props> {
   componentDidMount() {
-    if (appState.libraryPath) {
+    const { appState } = this.props
+    if (appState.libraryPath && appState.ghToken) {
       startFetching(appState.libraryPath)
     }
   }
@@ -31,7 +32,7 @@ class Results extends Component<Props> {
     const selected = results.selectedPlugin
     return (
       <div>
-        <h2>Rating: {rating}</h2>
+        <h2>Rating: {rating || 'N/A'}</h2>
         {results.inProgress && 'inProgress'}
         <table className="table">
           <thead className="thead-inverse">

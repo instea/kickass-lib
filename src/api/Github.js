@@ -4,23 +4,16 @@ import superagent from 'superagent'
 
 import config from '../config'
 import type { ApiAdapter, StringPojo } from './apiTypes'
+import { updateGHToken, getGHToken } from '../model/appState'
 
-const LOCAL_STORAGE_KEY = 'GITHUB_ACCESS_TOKEN'
 const AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
 const getAuthorizeUrl = clientId =>
   `${AUTHORIZE_URL}?client_id=${clientId}&redirect_uri=${window.location.toString()}`
 const ACCESS_TOKEN_URL = config.authUrl + '/access_token'
 
-function getToken() {
-  if (typeof window.localStorage === 'undefined') {
-    return
-  }
-  return window.localStorage.getItem(LOCAL_STORAGE_KEY)
-}
-
 export default class Github implements ApiAdapter {
   isReady() {
-    return !!getToken()
+    return !!getGHToken()
   }
 
   tryToInit() {
@@ -28,10 +21,7 @@ export default class Github implements ApiAdapter {
   }
 
   saveAccessToken(accessToken: string): void {
-    if (typeof window.localStorage === 'undefined') {
-      return
-    }
-    window.localStorage.setItem(LOCAL_STORAGE_KEY, accessToken)
+    updateGHToken(accessToken)
   }
 
   retrieveAccessToken(code: string, redirectUri: ?string): Promise<string> {
@@ -53,7 +43,7 @@ export default class Github implements ApiAdapter {
 
   callAPI(url: string): Promise<Object> {
     let request = superagent.get(url)
-    const accessToken = getToken()
+    const accessToken = getGHToken()
     request = accessToken
       ? request.set('Authorization', `token ${accessToken}`)
       : request
