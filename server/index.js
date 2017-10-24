@@ -6,7 +6,7 @@ const superagent = require('superagent')
 const app = express()
 
 const config = require('./config')
-const { port, github, githubUrls, defaultGithub } = config
+const { port, github, githubUrls, defaultGithub, allowOrigin } = config
 
 app.use(bodyParser.json())
 app.post('/access_token', (req, res) => {
@@ -27,6 +27,7 @@ app.post('/access_token', (req, res) => {
   superagent
     .post(githubUrls.ACCESS_TOKEN)
     .set('Accept', 'application/json')
+    .set('Access-Control-Allow-Origin', allowOrigin)
     .send(data)
     .then(({ body: resp }) => {
       console.log('/access_token received data', resp)

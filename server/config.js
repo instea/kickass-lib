@@ -28,6 +28,7 @@ const config = {
   defaultGithub: {
     SECRET: process.env.GH_SECRET || 'xxx',
   },
+  allowOrigin: process.env.ALLOW_ORIGIN || 'https://instea.github.io',
 }
 
 module.exports = config
