@@ -45,7 +45,7 @@ function _startFetching(url: string) {
   engine.run(fetcherPlugins).then(
     action(() => {
       state.inProgress = false
-      console.log('done', state.ctx)
+      console.log('done', state.ctx.toJS ? (state.ctx: any).toJS() : state.ctx)
     })
   )
 }

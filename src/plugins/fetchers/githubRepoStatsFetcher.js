@@ -16,7 +16,7 @@ function fetch(ctx) {
   const id = ctx.get(CK_GH_NAME)
   const url = makeRepoStatsRawUrl(id)
   return instance.callAPI(url).then(stats => {
-    console.log('stats', stats)
+    console.log('github stats', stats)
     ctx.set(CK_GH_REPO_STATS, stats)
     ctx.set(CK_GH_NUM_STARS, stats.stargazers_count)
     ctx.set(CK_OPEN_ISSUES_COUNT, stats.open_issues)
