@@ -8,6 +8,7 @@ import githubStarsCriteria from './plugins/criteria/githubStarsCriteria'
 import openIssuesRatioCriteria from './plugins/criteria/openIssuesRatioCriteria'
 import npmDownloadsCriteria from './plugins/criteria/npmDownloadsCriteria'
 import downloadsTrendCriteria from './plugins/criteria/downloadsTrendCriteria'
+import activeContributorsCriteria from './plugins/criteria/activeContributorsCriteria'
 
 export const fetcherPlugins = [
   packageJsonPlugin,
@@ -21,4 +22,5 @@ export const criteriaPlugins = [
   openIssuesRatioCriteria,
   npmDownloadsCriteria,
   downloadsTrendCriteria,
+  activeContributorsCriteria,
 ]
