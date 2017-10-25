@@ -31,6 +31,8 @@ export const CK_GH_UPDATED_AT = 'GITHUB_UPDATED_AT'
 export const CK_GH_PUSHED_AT = 'GITHUB_PUSHED_AT'
 /* last issues as returned by `/issues?state=all (json) */
 export const CK_GH_LAST_ISSUES = 'GITHUB_LAST_ISSUES'
+/* comments for last issues (array<{issue, comments}>) */
+export const CK_GH_COMMENTS_PER_ISSUES = 'GITHUB_ISSUES_COMMENTS'
 
 // npms.io specific keys
 export const CK_NPMS_DATA = 'NPMS_DATA'
