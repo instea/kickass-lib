@@ -56,6 +56,11 @@ describe('makeRatioNormalizator:ascending', () => {
     const val = normalizator(2, 2)
     expect(val).toBeCloseTo(100)
   })
+
+  it("don't goes over 100%", () => {
+    const val = normalizator(3, 2)
+    expect(val).toBeCloseTo(100)
+  })
 })
 
 describe('makeRatioNormalizator:descending', () => {

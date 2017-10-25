@@ -39,7 +39,8 @@ export function makeRatioNormalizator(
       // no ratio at all -> return average
       return 50
     }
-    const ratio = a / b * 100
+    let ratio = a / b * 100
+    ratio = Math.max(0, Math.min(100, ratio))
     let result
     if (ratio < lowRatio) {
       result = ratio / lowRatio * edge
