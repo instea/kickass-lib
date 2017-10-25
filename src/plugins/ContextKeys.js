@@ -8,11 +8,13 @@ export const CK_OPEN_ISSUES_COUNT = 'OPEN_ISSUES_COUNT'
 export const CK_TOTAL_ISSUES_COUNT = 'CK_TOTAL_ISSUES_COUNT'
 
 // npm specific keys
-/* parsed constent of projct package.json (json) */
+/* parsed content of projct package.json (json) */
 export const CK_NPM_PACKAGE = 'NPM_package.json'
+/* URL to the npm project page (string) */
+export const CK_NPM_URL = 'NPM_URL'
 /* npm name (string) */
 export const CK_NPM_NAME = 'NPM_NAME'
-/* download counts */
+/* download counts (number) */
 export const CK_NPM_DOWNLOADS_WEEKLY = 'NPM_WEEKLY_DOWNLOADS'
 export const CK_NPM_DOWNLOADS_MONTHLY = 'NPM_MONTHLY_DOWNLOADS'
 export const CK_NPM_DOWNLOADS_YEARLY = 'NPM_YEARLY_DOWNLOADS'

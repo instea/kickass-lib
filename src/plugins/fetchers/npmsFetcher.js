@@ -7,6 +7,7 @@ import {
   CK_NPM_DOWNLOADS_WEEKLY,
   CK_NPM_DOWNLOADS_MONTHLY,
   CK_NPM_DOWNLOADS_YEARLY,
+  CK_NPM_URL,
 } from '../ContextKeys'
 
 function fetch(ctx) {
@@ -16,6 +17,7 @@ function fetch(ctx) {
     const data = res.body && res.body
     console.log('npms data', data)
     ctx.set(CK_NPMS_DATA, data)
+    ctx.set(CK_NPM_URL, data.collected.metadata.links.npm)
     const npmDownloads = data.collected.npm.downloads
     const [, weekly, monthly, , , yearly] = npmDownloads
     ctx.set(CK_NPM_DOWNLOADS_WEEKLY, weekly.count)

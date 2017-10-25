@@ -27,8 +27,8 @@ const plugin: CriteriaPlugin = {
   requiredKeys: [CK_TOTAL_ISSUES_COUNT, CK_OPEN_ISSUES_COUNT],
   detailComponent: OpenIssuesDetail,
   name: 'Open issues ratio',
-  description:
-    'Ratio of open issues against all issues should not be high. However older project will naturally have low ratio thus weight of this criterion is not high',
+  description: `Ratio of open issues against all issues should not be high. However older project
+                will naturally have low ratio thus weight of this criterion is not high`,
   weight: 5,
 }
 

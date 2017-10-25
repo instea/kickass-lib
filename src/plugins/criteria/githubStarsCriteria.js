@@ -28,8 +28,8 @@ const plugin: CriteriaPlugin = {
   requiredKeys: [CK_GH_NUM_STARS],
   detailComponent: StarDetail,
   name: 'Github Stars',
-  description:
-    'Too low number of github stars usually means that lib is not so popular or too young (to have confidence)',
+  description: `Too low a number of github stars usually means that lib
+                is not so popular or too young (to have confidence)`,
   weight: 10,
 }
 
