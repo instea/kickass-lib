@@ -8,6 +8,28 @@ const app = express()
 const config = require('./config')
 const { port, github, githubUrls, defaultGithub, allowOrigin } = config
 
+if (allowOrigin) {
+  app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', allowOrigin)
+    res.header(
+      'Access-Control-Allow-Methods',
+      'GET, PUT, POST, DELETE, OPTIONS'
+    )
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization, Content-Length, X-Requested-With'
+    )
+    //intercepts OPTIONS method
+    if ('OPTIONS' === req.method) {
+      //respond with 200
+      res.send(200)
+    } else {
+      //move on
+      next()
+    }
+  })
+}
+
 app.use(bodyParser.json())
 app.post('/access_token', (req, res) => {
   console.log('request to /access_token', req.body)
@@ -27,7 +49,6 @@ app.post('/access_token', (req, res) => {
   superagent
     .post(githubUrls.ACCESS_TOKEN)
     .set('Accept', 'application/json')
-    .set('Access-Control-Allow-Origin', allowOrigin)
     .send(data)
     .then(({ body: resp }) => {
       console.log('/access_token received data', resp)
