@@ -12,6 +12,10 @@ export const CK_TOTAL_ISSUES_COUNT = 'CK_TOTAL_ISSUES_COUNT'
 export const CK_NPM_PACKAGE = 'NPM_package.json'
 /* npm name (string) */
 export const CK_NPM_NAME = 'NPM_NAME'
+/* download counts */
+export const CK_NPM_DOWNLOADS_WEEKLY = 'NPM_WEEKLY_DOWNLOADS'
+export const CK_NPM_DOWNLOADS_MONTHLY = 'NPM_MONTHLY_DOWNLOADS'
+export const CK_NPM_DOWNLOADS_YEARLY = 'NPM_YEARLY_DOWNLOADS'
 
 // github specific keys
 /* URL to the GH repository (string) */
