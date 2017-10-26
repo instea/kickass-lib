@@ -58,13 +58,17 @@ function canExecute(ctx: EngineContext, plugin: Plugin) {
   return plugin.requiredKeys.every(key => ctx.get(key) !== undefined)
 }
 
+function numberOrMinus1(number) {
+  return typeof number === 'number' ? number : -1
+}
+
 export function evaluate(
   ctx: EngineContext,
   criteriaPlugins: Array<CriteriaPlugin>
 ): Array<EvaluationResult> {
   const partial = criteriaPlugins
     .filter(p => canExecute(ctx, p))
-    .map(p => ({ rating: p.evaluate(ctx) || -1, plugin: p }))
+    .map(p => ({ rating: numberOrMinus1(p.evaluate(ctx)) || -1, plugin: p }))
     .filter(rw => rw.rating !== -1)
   return partial
 }
