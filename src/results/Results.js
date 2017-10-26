@@ -10,6 +10,7 @@ import {
 import type { AppState, ResultsState } from '../model/stateTypes'
 import { evaluate, aggregate } from '../engine/Engine'
 import { criteriaPlugins } from '../pluginDefinition'
+import { formatNumber } from './formatting'
 
 type Props = {
   results: ResultsState,
@@ -32,7 +33,7 @@ class Results extends Component<Props> {
     const selected = results.selectedPlugin
     return (
       <div>
-        <h2>Rating: {rating || 'N/A'}</h2>
+        <h2>Rating: {formatNumber(rating)}</h2>
         {results.inProgress && 'inProgress'}
         <table className="table">
           <thead className="thead-inverse">
@@ -72,7 +73,7 @@ function ResultRow({ selected, result, ctx }) {
           />
         </button>
       </td>
-      <td>{r.rating}</td>
+      <td>{formatNumber(r.rating)}</td>
       <td>{r.plugin.weight}</td>
     </tr>
   )
