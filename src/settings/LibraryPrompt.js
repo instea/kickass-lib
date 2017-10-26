@@ -25,7 +25,7 @@ class LibraryPrompt extends React.Component<Props, State> {
             className="form-control col-sm-10"
             value={this.props.appState.libraryPath}
             onChange={this.onChange}
-            autoComplete={true}
+            autoComplete="on"
           />
         </div>
       </form>

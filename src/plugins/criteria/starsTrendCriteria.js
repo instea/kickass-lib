@@ -5,9 +5,9 @@ import type { CriteriaPlugin } from '../../engine/types'
 import { CK_GH_PERIOD_LAST_30_STARS } from '../ContextKeys'
 import { makeUnlimitedNormalizator } from '../normalization'
 
-const _normalizator = makeUnlimitedNormalizator(30)
+const _normalizator = makeUnlimitedNormalizator(25)
 const normalizator = function reversedUnlimitedNormalizator(value) {
-  return 100 - _normalizator(value)
+  return 100 - _normalizator(Math.max(0, value - 2))
 }
 
 function evaluate(ctx) {
