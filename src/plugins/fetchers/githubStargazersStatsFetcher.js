@@ -29,6 +29,7 @@ async function fetch(ctx) {
       return links.last
     })
 
+  ctx.set(CK_GH_PERIOD_LAST_30_STARS, moment.duration(Infinity))
   let numFromEnd = 0
   while (url) {
     try {

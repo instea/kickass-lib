@@ -12,6 +12,7 @@ import issueResponseTimeCriteria from './plugins/criteria/issueResponseTimeCrite
 import npmDownloadsCriteria from './plugins/criteria/npmDownloadsCriteria'
 import downloadsTrendCriteria from './plugins/criteria/downloadsTrendCriteria'
 import activeContributorsCriteria from './plugins/criteria/activeContributorsCriteria'
+import starsTrendCriteria from './plugins/criteria/starsTrendCriteria'
 
 export const fetcherPlugins = [
   packageJsonPlugin,
@@ -29,4 +30,5 @@ export const criteriaPlugins = [
   npmDownloadsCriteria,
   downloadsTrendCriteria,
   activeContributorsCriteria,
+  starsTrendCriteria,
 ]
