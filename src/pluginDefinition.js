@@ -3,6 +3,7 @@ import packageJsonPlugin from './plugins/fetchers/packageJsonFetcher'
 import githubRepoStatsFetcher from './plugins/fetchers/githubRepoStatsFetcher'
 import githubIssuesFetcher from './plugins/fetchers/githubIssuesFetcher'
 import issueCommentsFetcher from './plugins/fetchers/githubIssueCommentsFetcher'
+import githubStargazersStatsFetcher from './plugins/fetchers/githubStargazersStatsFetcher'
 import npmsFetcher from './plugins/fetchers/npmsFetcher'
 
 import githubStarsCriteria from './plugins/criteria/githubStarsCriteria'
@@ -17,6 +18,7 @@ export const fetcherPlugins = [
   githubRepoStatsFetcher,
   githubIssuesFetcher,
   issueCommentsFetcher,
+  githubStargazersStatsFetcher,
   npmsFetcher,
 ]
 

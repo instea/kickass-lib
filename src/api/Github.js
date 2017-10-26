@@ -6,6 +6,8 @@ import config from '../config'
 import type { ApiAdapter, StringPojo } from './apiTypes'
 import { updateGHToken, getGHToken } from '../model/appState'
 
+type Req = superagent.SuperAgentRequest
+
 const AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
 const getAuthorizeUrl = clientId =>
   `${AUTHORIZE_URL}?client_id=${clientId}&redirect_uri=${window.location.toString()}`
@@ -41,22 +43,29 @@ export default class Github implements ApiAdapter {
       })
   }
 
-  callAPI(url: string): Promise<Object> {
+  callAPI(url: string, withRequest: ?(Req) => Req): Promise<Object> {
+    return this.callRawAPI(url, withRequest).then(res => res.body)
+  }
+
+  callRawAPI(url: string, withRequest: ?(Req) => Req): Promise<Object> {
     let request = superagent.get(url)
     const accessToken = getGHToken()
     request = accessToken
       ? request.set('Authorization', `token ${accessToken}`)
       : request
-    return request.then(res => res.body)
+    if (withRequest) {
+      request = withRequest(request)
+    }
+    return request
   }
 }
 
 export function templateToUrl(urlTemplate: string, params: ?StringPojo) {
-  return urlTemplate.replace(/{.+}/g, substr => {
-    console.log('found', substr)
-    // TODO implement also actual replacement (not needed now :))
-    return ''
-  })
+  return urlTemplate.replace(
+    /\{([^}a-zA-Z0-9]*)([^}]+)\}/g,
+    (whole, prefix, name) =>
+      params && params[name] ? prefix + params[name] : ''
+  )
 }
 
 export const instance = new Github()

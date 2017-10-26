@@ -29,6 +29,8 @@ export const CK_GH_NUM_STARS = 'GITHUB_NUM_STARS'
 export const CK_GH_CREATED_AT = 'GITHUB_CREATED_AT'
 export const CK_GH_UPDATED_AT = 'GITHUB_UPDATED_AT'
 export const CK_GH_PUSHED_AT = 'GITHUB_PUSHED_AT'
+/* time duration which it took to get the last 30 stars (moment.Duration) */
+export const CK_GH_PERIOD_LAST_30_STARS = 'GITHUB_PERIOD_LAST_30_STARS'
 /* last issues as returned by `/issues?state=all (json) */
 export const CK_GH_LAST_ISSUES = 'GITHUB_LAST_ISSUES'
 /* comments for last issues (array<{issue, comments}>) */
