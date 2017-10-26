@@ -33,7 +33,7 @@ const plugin: CriteriaPlugin = {
   requiredKeys: [CK_GH_PERIOD_LAST_30_STARS],
   detailComponent: StarsDetail,
   name: 'Stars trend',
-  description: `If the duration it takes so get 30 stars is too long, it usually shows either
+  description: `If the duration it takes to get 30 stars is too long, it usually shows either
                 there is a better alternative or indicates that library gets unsupported`,
   weight: 5,
 }
