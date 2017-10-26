@@ -61,6 +61,9 @@ class Results extends Component<Props> {
 
 function ResultRow({ selected, result, ctx }) {
   const r = result
+  // This is to allow multiline strings to be used for descriptions
+  // Otherwise new lines and tabs would be preserved in the title attribute
+  const description = r.plugin.description.replace(/\s+/g, ' ')
   const brief = (
     <tr key="brief">
       <td>
@@ -69,7 +72,7 @@ function ResultRow({ selected, result, ctx }) {
           <i
             className="fa fa-info-circle"
             aria-hidden="true"
-            title={r.plugin.description}
+            title={description}
           />
         </button>
       </td>
