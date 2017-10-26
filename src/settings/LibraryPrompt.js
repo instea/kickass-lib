@@ -21,9 +21,11 @@ class LibraryPrompt extends React.Component<Props, State> {
           </label>
           <input
             id="libPath"
+            type="text"
             className="form-control col-sm-10"
             value={this.props.appState.libraryPath}
             onChange={this.onChange}
+            autoComplete={true}
           />
         </div>
       </form>
